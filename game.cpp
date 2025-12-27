@@ -9,7 +9,7 @@ using namespace std;
 
 #define H 24 
 #define W 15
-const char BLOCK = (char)219;
+const char BLOCK = (char)219; // Ký tự khối đặc █
 
 /* ============================================================
    MODULE QUẢN LÝ TỐC ĐỘ (SPEED MANAGER)
@@ -62,7 +62,7 @@ void gotoxy(int x, int y) {
 }
 
 /* =======================
-   HỆ THỐNG CÁC KHỐI GẠCH
+   HỆ THỐNG CÁC KHỐI GẠCH (CLASS PIECE)
 ======================= */
 class Piece {
 protected:
@@ -78,7 +78,7 @@ public:
 class LPiece : public Piece {
 public:
     LPiece() {
-        color = 6;
+        color = 6; // Màu Cam (Orange-ish)
         char t[4][4] = { {' ','L',' ',' '}, {' ','L',' ',' '}, {' ','L','L',' '}, {' ',' ',' ',' '} };
         memcpy(shape, t, sizeof(shape));
     }
@@ -93,7 +93,7 @@ public:
 class ZPiece : public Piece {
 public:
     ZPiece() {
-        color = 12;
+        color = 12; // Màu Đỏ (Red)
         char t[4][4] = { {'Z','Z',' ',' '}, {' ','Z','Z',' '}, {' ',' ',' ',' '}, {' ',' ',' ',' '} };
         memcpy(shape, t, sizeof(shape));
     }
@@ -107,14 +107,18 @@ public:
 
 class DotPiece : public Piece {
 public:
-    DotPiece() { color = 15; char t[4][4] = { {' ',' ',' ',' '}, {' ','D',' ',' '}, {' ',' ',' ',' '}, {' ',' ',' ',' '} }; memcpy(shape, t, sizeof(shape)); }
-    void rotate() override {}
+    DotPiece() { 
+        color = 15; // Màu Trắng (White)
+        char t[4][4] = { {' ',' ',' ',' '}, {' ','D',' ',' '}, {' ',' ',' ',' '}, {' ',' ',' ',' '} }; 
+        memcpy(shape, t, sizeof(shape)); 
+    }
+    void rotate() override {} // 1x1 xoay không đổi
 };
 
 class SmallPiece : public Piece {
 public:
     SmallPiece() {
-        color = 10;
+        color = 10; // Màu xanh lá sáng (Light Green)
         char t[4][4] = { {' ',' ',' ',' '}, {' ','S','S',' '}, {' ',' ',' ',' '}, {' ',' ',' ',' '} };
         memcpy(shape, t, sizeof(shape));
     }
@@ -129,7 +133,7 @@ public:
 class IPiece : public Piece {
 public:
     IPiece() {
-        color = 11;
+        color = 11; // Cyan
         char t[4][4] = { {' ','I',' ',' '}, {' ','I',' ',' '}, {' ','I',' ',' '}, {' ','I',' ',' '} };
         memcpy(shape, t, sizeof(shape));
     }
@@ -143,14 +147,18 @@ public:
 
 class OPiece : public Piece {
 public:
-    OPiece() { color = 14; char t[4][4] = { {' ',' ',' ',' '}, {' ','O','O',' '}, {' ','O','O',' '}, {' ',' ',' ',' '} }; memcpy(shape, t, sizeof(shape)); }
+    OPiece() { 
+        color = 14; // Yellow
+        char t[4][4] = { {' ',' ',' ',' '}, {' ','O','O',' '}, {' ','O','O',' '}, {' ',' ',' ',' '} }; 
+        memcpy(shape, t, sizeof(shape)); 
+    }
     void rotate() override {}
 };
 
 class TPiece : public Piece {
 public:
     TPiece() {
-        color = 13;
+        color = 13; // Magenta
         char t[4][4] = { {' ',' ',' ',' '}, {' ','T',' ',' '}, {'T','T','T',' '}, {' ',' ',' ',' '} };
         memcpy(shape, t, sizeof(shape));
     }
@@ -223,7 +231,6 @@ bool canMove(int dx, int dy) {
     return true;
 }
 
-// Sửa hàm removeLine để báo cáo số dòng xóa được
 int removeLine() {
     int linesCleared = 0;
     for (int i = H - 2; i > 0; i--) {
@@ -274,7 +281,7 @@ int main() {
 
     initBoard();
     current = randomPiece();
-    SpeedController speedManager(200, 50, 15); // Khởi tạo bộ quản lý tốc độ
+    SpeedController speedManager(200, 50, 15); 
 
     while (true) {
         boardDelBlock();
@@ -289,7 +296,7 @@ int main() {
             }
             if (c == 'w') {
                 current->rotate();
-                if (!canMove(0, 0)) { /* Logic hoàn tác nếu cần */ }
+                if (!canMove(0, 0)) { /* Có thể thêm logic xoay ngược lại nếu va chạm */ }
             }
             if (c == 'q') break;
         }
@@ -298,7 +305,7 @@ int main() {
         else {
             block2Board();
             int cleared = removeLine();
-            speedManager.updateSpeed(cleared); //  Cập nhật tốc độ dựa trên số hàng vừa xóa
+            speedManager.updateSpeed(cleared); 
 
             delete current;
             current = randomPiece();
@@ -309,7 +316,7 @@ int main() {
 
         block2Board();
         draw(speedManager.getDelay());
-        Sleep(speedManager.getDelay()); // Dùng tốc độ từ bộ điều khiển
+        Sleep(speedManager.getDelay()); 
     }
     delete current;
     return 0;
