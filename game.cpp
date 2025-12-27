@@ -268,6 +268,34 @@ void removeLine() {
     else if (linesCleared >= 4) score += 2000; // Tetris!
 }
 
+void showStartScreen() {
+    system("cls");
+    int midX = 10, midY = H / 2 - 5;
+    
+    setColor(11); // Màu Cyan
+    gotoxy(midX, midY);     cout << "==============================";
+    gotoxy(midX, midY + 1); cout << "      T E T R I S  G A M E    ";
+    gotoxy(midX, midY + 2); cout << "==============================";
+    
+    setColor(14); // Màu Vàng
+    gotoxy(midX + 2, midY + 5); cout << "W: Rotate      S: Speed Down";
+    gotoxy(midX + 2, midY + 6); cout << "A: Move Left   D: Move Right";
+    
+    setColor(10); // Màu Xanh lá
+    gotoxy(midX + 4, midY + 9); cout << "PRESS 'ENTER' TO START";
+    
+    setColor(7); // Trắng lại
+    
+    // Vòng lặp chờ phím Enter
+    while (true) {
+        if (_kbhit()) {
+            char c = _getch();
+            if (c == 13) break; // 13 là mã ASCII của phím Enter
+        }
+    }
+    system("cls");
+}
+
 void showGameOver() {
     system("cls");
     int midX = 5, midY = H / 2;
@@ -298,6 +326,8 @@ int main() {
     srand((unsigned int)time(NULL));
     system("cls");
     hideCursor();
+
+    showStartScreen();
 
     initBoard();
     current = randomPiece();
